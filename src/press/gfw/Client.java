@@ -124,6 +124,7 @@ public class Client extends Thread {
         while (!kill) {
             Socket agentSocket = null;
             try {
+            	log("Accepting");
                 agentSocket = listenSocket.accept();
             } catch (IOException ex) {
                 if (listenSocket != null && !listenSocket.isClosed()) {
@@ -137,6 +138,7 @@ public class Client extends Thread {
             }
             
             String browserHostAddr = agentSocket.getInetAddress().getHostAddress();
+        	log("Accepted from browserHostAddr=" + browserHostAddr);
             if (browserHostAddr == null || allowedHosts == null || !allowedHosts.contains(browserHostAddr.trim())) {
             	log("browserHostAddr not allowed: " + browserHostAddr);
             	continue;

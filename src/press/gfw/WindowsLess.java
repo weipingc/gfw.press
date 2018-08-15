@@ -35,6 +35,7 @@ public class WindowsLess {
     public static void main(String[] args) throws IOException {
     	Security.setProperty("crypto.policy", "unlimited");
         WindowsLess windows = new WindowsLess();
+        windows.log("WindowsLess.main");
         windows.start();
     }
     private Client client = null;
@@ -44,6 +45,7 @@ public class WindowsLess {
     public WindowsLess() {
         config = new Config();
         loadConfig();
+        log("WindowsLess.<>, serverHost="+serverHost + ", serverPort="+serverPort+ ", proxyPort="+proxyPort);
     }
 
     private void loadConfig() {
@@ -75,6 +77,6 @@ public class WindowsLess {
         }
         client = new Client(config.getAllowedHosts(), serverHost, serverPort, password, proxyPort);
         client.start();
-        // log(client.getName());
+        log(client.getName());
     }
 }

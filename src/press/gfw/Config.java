@@ -180,7 +180,6 @@ public class Config {
 			return null;
 		}
 
-		allowedHostsFileTime = allowedHostsFile.lastModified();
 		String text = read(allowedHostsFile);
 		if (text == null) {
 			return null;
