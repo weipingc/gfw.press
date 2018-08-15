@@ -485,7 +485,7 @@ public class Windows extends JFrame {
 
 		}
 
-		client = new Client(serverHost, serverPort, password, proxyPort);
+		client = new Client(config.getAllowedHosts(), serverHost, serverPort, password, proxyPort);
 
 		client.start();
 

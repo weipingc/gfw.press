@@ -25,6 +25,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Hashtable;
 
 import org.json.simple.JSONObject;
@@ -56,6 +57,8 @@ public class Config {
 	private File serverFile = null;
 
 	private File userFile = null;
+	
+	private File allowedHostsFile = null;
 
 	private long userFileTime = 0L;
 
@@ -66,7 +69,8 @@ public class Config {
 		serverFile = new File("server.json");
 
 		userFile = new File("user.txt");
-
+		
+		allowedHostsFile = new File("allowedHosts.txt");
 	}
 
 	/**
@@ -171,6 +175,34 @@ public class Config {
 
 	}
 
+	public HashSet<String> getAllowedHosts() {
+		if (!allowedHostsFile.exists()) {
+			return null;
+		}
+
+		allowedHostsFileTime = allowedHostsFile.lastModified();
+		String text = read(allowedHostsFile);
+		if (text == null) {
+			return null;
+		}
+
+		String[] lines = text.trim().split("\n");
+		text = null;
+		if (lines == null || lines.length == 0) {
+			return null;
+		}
+
+		HashSet<String> hosts = new HashSet<String>(lines.length);
+		for (int i = 0; i < lines.length; i++) {
+			String line = lines[i].trim();
+			if (line == null || !line.matches("\\d+\\.\\d+\\.\\d+\\.\\d+")) {
+				continue;
+			}
+			hosts.add(line);
+		}
+		return hosts.size() > 0 ? hosts : null;
+	}
+	
 	/**
 	 * 打印信息
 	 * 
